@@ -20,7 +20,6 @@ type HookArgs = {
   imgLocation: any;
   items: Item[];
   onSuccess?: (n: number) => void;
-  onCancelUpload: () => void;
 };
 
 type Args = {
@@ -67,7 +66,10 @@ export default function useSendFile(args: HookArgs) {
     sendingProgress,
     cancelUpload,
     errorMessage,
-    closeErrorDialog: () => setErrorMessage(undefined)
+    closeErrorDialog: () => {
+      cancelUpload();
+      setErrorMessage(undefined);
+    }
   };
 }
 
@@ -79,7 +81,6 @@ async function sendFile({
   history,
   setSendingProgress,
   setUploadTask,
-  onCancelUpload,
   missionIds
 }: Args) {
   if (!online) {
@@ -109,18 +110,7 @@ async function sendFile({
     missions: missionIds
   };
 
-  let photoRef;
-  try {
-    photoRef = await dbFirebase.saveMetadata(dataToSend);
-  } catch (error) {
-    console.error(error);
-
-    const extraInfo =
-      error.message === "storage/canceled"
-        ? ""
-        : `Try again (${error.message})`;
-    throw new Error(`Photo upload was canceled. ${extraInfo}`);
-  }
+  let photoRef = await dbFirebase.saveMetadata(dataToSend);
 
   try {
     await updateMissionOnPhotoUploaded(totalCount, missionIds);
@@ -153,19 +143,5 @@ async function sendFile({
 
   await uploadTask.then(() => {
     history.push(linkToUploadSuccess(totalCount as any));
-  });
-
-  await uploadTask.catch((error) => {
-    // @ts-ignore
-    if (error.code === "storage/canceled") {
-      onCancelUpload();
-    } else {
-      console.log(error);
-      const extraInfo =
-        error.message === "storage/canceled"
-          ? ""
-          : `Try again (${error.message})`;
-      throw Error(`Photo upload was canceled. ${extraInfo}`);
-    }
   });
 }

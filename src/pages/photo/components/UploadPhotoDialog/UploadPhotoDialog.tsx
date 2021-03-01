@@ -14,15 +14,13 @@ interface Props {
   imgSrc: any;
   online: boolean;
   items: any;
-  onCancelUpload: () => void;
 }
 
 export default function UploadPhotoDialog({
   imgLocation,
   imgSrc,
   online,
-  items,
-  onCancelUpload
+  items
 }: Props) {
   const {
     cancelUpload,
@@ -33,8 +31,7 @@ export default function UploadPhotoDialog({
     imgSrc,
     online,
     imgLocation,
-    items,
-    onCancelUpload
+    items
   });
 
   return (

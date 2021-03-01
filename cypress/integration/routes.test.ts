@@ -21,7 +21,7 @@ describe("routes", () => {
     cy.contains("Feedback");
 
     cy.visit(routes.photoApproval);
-    cy.contains("Photo Approval");
+    cy.contains("Photo Approval", { timeout: 20000 });
 
     cy.visit(routes.feedbackReports);
     cy.contains("Feedback");

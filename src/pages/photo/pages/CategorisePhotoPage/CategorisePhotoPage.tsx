@@ -225,9 +225,6 @@ export function CategoriseLitterPageWithFileInfo() {
           online
           items={items}
           imgLocation={isImageMetaState(state) ? state.imgLocation : null}
-          onCancelUpload={() =>
-            history.push(history.location.pathname, history.location.state)
-          }
         />
       </Route>
     </>

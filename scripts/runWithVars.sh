@@ -2,7 +2,8 @@
 
 set -x;
 
-cp src/custom/config.json functions/
+# TODO: config per environment
+cp ./src/features/firebase/config.json functions/
 
 # any better way ???? it muast be inserted in the HEAD as first thing
 cp node_modules/first-input-delay/dist/first-input-delay.min.js  public/
