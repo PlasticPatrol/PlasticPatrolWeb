@@ -13,7 +13,7 @@ import {
   linkToEditMission
 } from "./links";
 import { Route, Switch } from "react-router-dom";
-import { useHistory } from "react-router";
+
 import ManagePendingMembers from "../../pages/missions/view/ManagePendingMembers";
 
 type Props = {};

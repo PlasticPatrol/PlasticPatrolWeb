@@ -10,15 +10,17 @@ import {
   ConfigurableMissionData,
   EmptyMissionData,
   isMissionDataValid,
-  isDuplicatingExistingMissionName,
-  isSameDay
+  isDuplicatingExistingMissionName
 } from "../../../types/Missions";
-import User from "../../../types/User";
-import { linkToMissionsPage } from "../../../routes/missions/links";
+
+import {
+  linkToCreateMission,
+  linkToMissionsPage
+} from "../../../routes/missions/links";
 import { useUser } from "../../../providers/UserProvider";
 import { createMission } from "../../../features/firebase/missions";
 import { useMissions } from "../../../providers/MissionsProvider";
-import { linkToLogin } from "../../../routes/login/links";
+import { linkToLoginWithRedirectOnSuccess } from "../../../routes/login/links";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -84,7 +86,11 @@ export default function CreateMission({}: Props) {
           color="default"
           variant="contained"
           className={styles.loginButton}
-          onClick={() => history.push(linkToLogin())}
+          onClick={() =>
+            history.push(
+              linkToLoginWithRedirectOnSuccess(linkToCreateMission())
+            )
+          }
         >
           Login
         </Button>
