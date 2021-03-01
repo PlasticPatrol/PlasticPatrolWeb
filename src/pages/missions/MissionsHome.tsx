@@ -8,6 +8,7 @@ import "react-circular-progressbar/dist/styles.css";
 
 import styles from "standard.scss";
 import Search from "@material-ui/icons/Search";
+import Clear from "@material-ui/icons/Clear";
 import MissionThumbnail from "./MissionThumbnail";
 import { linkToCreateMission } from "../../routes/missions/links";
 import { useMissions } from "../../providers/MissionsProvider";
@@ -142,6 +143,12 @@ export default function MissionsHome({}: Props) {
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
         />
+        {searchString.length > 0 && (
+          <Clear
+            style={{ color: styles.darkgrey }}
+            onClick={() => setSearchString("")}
+          />
+        )}
       </div>
       <div className={classes.missionList}>
         {missionData?.missions === undefined ? (
