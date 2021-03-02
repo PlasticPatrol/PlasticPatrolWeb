@@ -22,134 +22,136 @@ const empty: BaseStats = {
   largeCollectionPieces: 0
 };
 
-it("tracks large uploads correctly", () => {
-  const stats = _.clone(empty);
-  [2000, 1].forEach((pieces) => updateStatsWithPieces(stats, pieces));
+describe("stats", () => {
+  it("tracks large uploads correctly", () => {
+    const stats = _.clone(empty);
+    [2000, 1].forEach((pieces) => updateStatsWithPieces(stats, pieces));
 
-  assert.deepEqual(stats, {
-    uploaded: 2,
-    totalUploaded: 2,
-    pieces: 2001,
-    largeCollectionPieces: 2000,
-    largeCollectionUploads: 1
+    assert.deepEqual(stats, {
+      uploaded: 2,
+      totalUploaded: 2,
+      pieces: 2001,
+      largeCollectionPieces: 2000,
+      largeCollectionUploads: 1
+    });
   });
-});
 
-it("computesStats for users without groups", () => {
-  const userId = "123";
-  const groupId = "456";
+  it("computesStats for users without groups", () => {
+    const userId = "123";
+    const groupId = "456";
 
-  // @ts-ignore
-  const rawUser: admin.auth.UserRecord = {
-    uid: userId,
-    displayName: "Bob"
-  };
-
-  const user: User = {};
-
-  const photo: Photo = {
-    owner_id: userId,
-    moderated: true,
-    published: true,
-    pieces: 10
-  };
-
-  const group: Group = {
-    displayName: "My Group"
-  };
-
-  const stats = computeStats(
-    [rawUser],
-    makeQuerySnapshot<Group>(groupId, group),
-    makeQuerySnapshot("photoId", photo),
-    makeQuerySnapshot(userId, user)
-  );
-  assert.deepEqual(stats.totalUploaded, 1);
-  assert.deepEqual(stats.moderated, 1);
-  assert.deepEqual(stats.rejected, 0);
-  assert.deepEqual(stats.published, 1);
-  assert.deepEqual(stats.pieces, 10);
-  assert.deepEqual(stats.users, [
-    {
+    // @ts-ignore
+    const rawUser: admin.auth.UserRecord = {
       uid: userId,
-      displayName: "Bob",
-      pieces: 10,
-      uploaded: 1,
-      totalUploaded: 1,
-      largeCollectionUploads: 0,
-      largeCollectionPieces: 0
-    }
-  ]);
-  assert.deepEqual(stats.groups, [
-    {
-      gid: groupId,
-      displayName: "My Group",
-      pieces: 0,
-      uploaded: 0,
-      totalUploaded: 0,
-      largeCollectionUploads: 0,
-      largeCollectionPieces: 0
-    }
-  ]);
-});
+      displayName: "Bob"
+    };
 
-it("computesStats with groups", () => {
-  const userId = "123";
-  const groupId = "456";
+    const user: User = {};
 
-  // @ts-ignore
-  const rawUser: admin.auth.UserRecord = {
-    uid: userId,
-    displayName: "Bob"
-  };
+    const photo: Photo = {
+      owner_id: userId,
+      moderated: true,
+      published: true,
+      pieces: 10
+    };
 
-  const user: User = {
-    groups: [groupId]
-  };
+    const group: Group = {
+      displayName: "My Group"
+    };
 
-  const photo: Photo = {
-    owner_id: userId,
-    moderated: true,
-    published: true,
-    pieces: 10
-  };
+    const stats = computeStats(
+      [rawUser],
+      makeQuerySnapshot<Group>(groupId, group),
+      makeQuerySnapshot("photoId", photo),
+      makeQuerySnapshot(userId, user)
+    );
+    assert.deepEqual(stats.totalUploaded, 1);
+    assert.deepEqual(stats.moderated, 1);
+    assert.deepEqual(stats.rejected, 0);
+    assert.deepEqual(stats.published, 1);
+    assert.deepEqual(stats.pieces, 10);
+    assert.deepEqual(stats.users, [
+      {
+        uid: userId,
+        displayName: "Bob",
+        pieces: 10,
+        uploaded: 1,
+        totalUploaded: 1,
+        largeCollectionUploads: 0,
+        largeCollectionPieces: 0
+      }
+    ]);
+    assert.deepEqual(stats.groups, [
+      {
+        gid: groupId,
+        displayName: "My Group",
+        pieces: 0,
+        uploaded: 0,
+        totalUploaded: 0,
+        largeCollectionUploads: 0,
+        largeCollectionPieces: 0
+      }
+    ]);
+  });
 
-  const group: Group = {
-    displayName: "My Group"
-  };
+  it("computesStats with groups", () => {
+    const userId = "123";
+    const groupId = "456";
 
-  const stats = computeStats(
-    [rawUser],
-    makeQuerySnapshot<Group>(groupId, group),
-    makeQuerySnapshot("photoId", photo),
-    makeQuerySnapshot(userId, user)
-  );
-
-  assert.deepEqual(stats.totalUploaded, 1);
-  assert.deepEqual(stats.moderated, 1);
-  assert.deepEqual(stats.rejected, 0);
-  assert.deepEqual(stats.published, 1);
-  assert.deepEqual(stats.pieces, 10);
-  assert.deepEqual(stats.users, [
-    {
+    // @ts-ignore
+    const rawUser: admin.auth.UserRecord = {
       uid: userId,
-      displayName: "Bob",
-      pieces: 10,
-      uploaded: 1,
-      totalUploaded: 1,
-      largeCollectionUploads: 0,
-      largeCollectionPieces: 0
-    }
-  ]);
-  assert.deepEqual(stats.groups, [
-    {
-      gid: groupId,
-      displayName: "My Group",
-      pieces: 10,
-      uploaded: 1,
-      totalUploaded: 1,
-      largeCollectionUploads: 0,
-      largeCollectionPieces: 0
-    }
-  ]);
+      displayName: "Bob"
+    };
+
+    const user: User = {
+      groups: [groupId]
+    };
+
+    const photo: Photo = {
+      owner_id: userId,
+      moderated: true,
+      published: true,
+      pieces: 10
+    };
+
+    const group: Group = {
+      displayName: "My Group"
+    };
+
+    const stats = computeStats(
+      [rawUser],
+      makeQuerySnapshot<Group>(groupId, group),
+      makeQuerySnapshot("photoId", photo),
+      makeQuerySnapshot(userId, user)
+    );
+
+    assert.deepEqual(stats.totalUploaded, 1);
+    assert.deepEqual(stats.moderated, 1);
+    assert.deepEqual(stats.rejected, 0);
+    assert.deepEqual(stats.published, 1);
+    assert.deepEqual(stats.pieces, 10);
+    assert.deepEqual(stats.users, [
+      {
+        uid: userId,
+        displayName: "Bob",
+        pieces: 10,
+        uploaded: 1,
+        totalUploaded: 1,
+        largeCollectionUploads: 0,
+        largeCollectionPieces: 0
+      }
+    ]);
+    assert.deepEqual(stats.groups, [
+      {
+        gid: groupId,
+        displayName: "My Group",
+        pieces: 10,
+        uploaded: 1,
+        totalUploaded: 1,
+        largeCollectionUploads: 0,
+        largeCollectionPieces: 0
+      }
+    ]);
+  });
 });

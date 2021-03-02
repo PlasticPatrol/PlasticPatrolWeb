@@ -1,9 +1,8 @@
 import * as functions from "firebase-functions";
-import admin from "firebase-admin";
+import { firestore } from "firebase-admin";
 
-import getMissionIfExists from "../../missions/utils/getMissionIfExists";
-import verifyMissionIsOngoing from "../../missions/utils/verifyMissionIsOngoing";
-import { firestore } from "../../firestore";
+import getMissionIfExists from "../utils/getMissionIfExists";
+import verifyMissionIsOngoing from "../utils/verifyMissionIsOngoing";
 
 export default functions.firestore
   .document("photos/{photoId}")
@@ -28,11 +27,11 @@ export default functions.firestore
             return;
           }
 
-          await firestore
+          await firestore()
             .collection(missions)
             .doc(missionId)
             .update({
-              pendingPieces: admin.firestore.FieldValue.increment(pieces)
+              pendingPieces: firestore.FieldValue.increment(pieces)
             });
         } catch (err) {
           console.info("Error updating mission with pieces");

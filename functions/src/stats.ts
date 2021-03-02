@@ -1,8 +1,7 @@
 import _ from "lodash";
-import admin from "firebase-admin";
+import { firestore, auth } from "firebase-admin";
 import { QuerySnapshot, QueryDocumentSnapshot } from "@google-cloud/firestore";
 import { Stats, UserStats, GroupStats, notEmpty, BaseStats } from "./types";
-import { firestore, auth } from "./firestore";
 
 const LARGE_COLLECTION_THRESHOLD = 1000;
 
@@ -25,7 +24,7 @@ export const updateStatsWithPieces = (
  * Use the display name on the user record itself if present,
  * otherwise just use the UID
  */
-export const getDisplayName = (user: admin.auth.UserRecord): string => {
+export const getDisplayName = (user: auth.UserRecord): string => {
   if (user.displayName) {
     return user.displayName;
   } else {
@@ -37,7 +36,7 @@ export const getDisplayName = (user: admin.auth.UserRecord): string => {
  * compute the stats from the given data about users, groups and photos
  */
 export const computeStats = (
-  rawUsers: admin.auth.UserRecord[],
+  rawUsers: auth.UserRecord[],
   groupsSnapshot: QuerySnapshot,
   photosSnapshot: QuerySnapshot,
   usersSnapshot: QuerySnapshot
@@ -134,13 +133,13 @@ export const computeStats = (
 /**
  * fetch all the users from the authentication database (not from our "users" collection")
  */
-async function fetchUsers(): Promise<admin.auth.UserRecord[]> {
+async function fetchUsers(): Promise<auth.UserRecord[]> {
   // get all the users
-  let users: admin.auth.UserRecord[] = [];
+  let users: auth.UserRecord[] = [];
   let pageToken = undefined;
   do {
     /* eslint-disable no-await-in-loop */
-    const listUsersResult: admin.auth.ListUsersResult = await auth.listUsers(
+    const listUsersResult: auth.ListUsersResult = await auth().listUsers(
       1000,
       pageToken
     );
@@ -158,9 +157,9 @@ async function fetchUsers(): Promise<admin.auth.UserRecord[]> {
 export const computeStatsAdHoc = async () => {
   const [rawUsers, groupDocuments, photos, users] = await Promise.all([
     fetchUsers(),
-    firestore.collection("groups").get(),
-    firestore.collection("photos").get(),
-    firestore.collection("users").get()
+    firestore().collection("groups").get(),
+    firestore().collection("photos").get(),
+    firestore().collection("users").get()
   ]);
   return computeStats(rawUsers, groupDocuments, photos, users);
 };
@@ -173,8 +172,11 @@ export const computeStatsAdHoc = async () => {
 export const updateStats = async () => {
   const stats = await computeStatsAdHoc();
   const statsWithTimestamp = {
-    updated: admin.firestore.FieldValue.serverTimestamp(),
+    updated: firestore.FieldValue.serverTimestamp(),
     ...stats
   };
-  return await firestore.collection("sys").doc("stats").set(statsWithTimestamp);
+  return await firestore()
+    .collection("sys")
+    .doc("stats")
+    .set(statsWithTimestamp);
 };

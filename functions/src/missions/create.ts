@@ -1,8 +1,7 @@
 import * as functions from "firebase-functions";
 
-import admin from "firebase-admin";
+import { auth, firestore } from "firebase-admin";
 
-import { firestore } from "../firestore";
 import { getDisplayName } from "../stats";
 import { MissionFromServer, ConfigurableMissionData } from "./models";
 import addMissionToUser from "./utils/addMissionToUser";
@@ -21,7 +20,7 @@ export default functions.https.onCall(
         "User must be authenticated"
       );
     }
-    const user = await admin.auth().getUser(ownerUserId);
+    const user = await auth().getUser(ownerUserId);
     const displayName = getDisplayName(user);
 
     const missionToPersist: MissionToPersist = {
@@ -35,7 +34,9 @@ export default functions.https.onCall(
       pendingUsers: []
     };
 
-    const { id } = await firestore.collection("missions").add(missionToPersist);
+    const { id } = await firestore()
+      .collection("missions")
+      .add(missionToPersist);
 
     await addMissionToUser(ownerUserId, id);
 

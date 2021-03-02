@@ -1,8 +1,7 @@
 import * as functions from "firebase-functions";
 
-import admin from "firebase-admin";
+import { firestore } from "firebase-admin";
 
-import { firestore } from "../firestore";
 import getMissionIfExists from "./utils/getMissionIfExists";
 import verifyMissionIsOngoing from "./utils/verifyMissionIsOngoing";
 
@@ -43,7 +42,7 @@ export default functions.https.onCall(
     }
 
     if (ownerUserId !== currentUserId) {
-      const userDoc = await firestore
+      const userDoc = await firestore()
         .collection("users")
         .doc(currentUserId)
         .get();
@@ -62,11 +61,11 @@ export default functions.https.onCall(
       throw new functions.https.HttpsError("unavailable", "Mission has ended");
     }
 
-    await firestore
+    await firestore()
       .collection("missions")
       .doc(missionId)
       .update({
-        pendingUsers: admin.firestore.FieldValue.arrayRemove(pendingUser)
+        pendingUsers: firestore.FieldValue.arrayRemove(pendingUser)
       });
 
     return;

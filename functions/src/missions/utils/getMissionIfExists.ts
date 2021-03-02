@@ -1,12 +1,15 @@
 import * as functions from "firebase-functions";
 
 import { Mission } from "missions/models";
-import { firestore } from "../../firestore";
+import { firestore } from "firebase-admin";
 
 export default async function getMissionIfExists(
   missionId: string
 ): Promise<Mission> {
-  const snapshot = await firestore.collection("missions").doc(missionId).get();
+  const snapshot = await firestore()
+    .collection("missions")
+    .doc(missionId)
+    .get();
 
   const { exists, data } = snapshot;
   if (!exists) {

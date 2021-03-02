@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
 
-import { firestore } from "../firestore";
+import { firestore } from "firebase-admin";
 import addMissionToUser from "./utils/addMissionToUser";
 import getMissionIfExists from "./utils/getMissionIfExists";
 import verifyMissionIsOngoing from "./utils/verifyMissionIsOngoing";
@@ -42,7 +42,7 @@ export default functions.https.onCall(
     }
 
     if (ownerUserId !== currentUserId) {
-      const userDoc = await firestore
+      const userDoc = await firestore()
         .collection("users")
         .doc(currentUserId)
         .get();
@@ -75,7 +75,7 @@ export default functions.https.onCall(
     };
 
     await Promise.all([
-      firestore.collection("missions").doc(missionId).update(updates),
+      firestore().collection("missions").doc(missionId).update(updates),
       addMissionToUser(userIdBeingApproved, missionId)
     ]);
 

@@ -1,18 +1,17 @@
 import * as functions from "firebase-functions";
-import admin from "firebase-admin";
+import { firestore } from "firebase-admin";
 
-import getMissionIfExists from "../../missions/utils/getMissionIfExists";
-import { firestore } from "../../firestore";
+import getMissionIfExists from "../utils/getMissionIfExists";
 
 async function decrementPendingPieces(
   missionId: string,
   numberToDecrement: number
 ) {
-  return await firestore
+  return await firestore()
     .collection("missions")
     .doc(missionId)
     .update({
-      pendingPieces: admin.firestore.FieldValue.increment(-numberToDecrement)
+      pendingPieces: firestore.FieldValue.increment(-numberToDecrement)
     });
 }
 
@@ -60,13 +59,13 @@ export default functions.firestore
               return;
             }
 
-            await firestore
+            await firestore()
               .collection("missions")
               .doc(missionId)
               .update({
-                totalPieces: admin.firestore.FieldValue.increment(pieces),
-                pendingPieces: admin.firestore.FieldValue.increment(-pieces),
-                [`totalUserPieces.${photoUploaderId}.pieces`]: admin.firestore.FieldValue.increment(
+                totalPieces: firestore.FieldValue.increment(pieces),
+                pendingPieces: firestore.FieldValue.increment(-pieces),
+                [`totalUserPieces.${photoUploaderId}.pieces`]: firestore.FieldValue.increment(
                   pieces
                 )
               });

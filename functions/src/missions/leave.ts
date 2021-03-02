@@ -1,8 +1,7 @@
 import * as functions from "firebase-functions";
 
-import admin from "firebase-admin";
+import { auth, firestore } from "firebase-admin";
 
-import { firestore } from "../firestore";
 import getMissionIfExists from "./utils/getMissionIfExists";
 import verifyMissionIsOngoing from "./utils/verifyMissionIsOngoing";
 
@@ -37,28 +36,28 @@ export default functions.https.onCall(
     if (!user) {
       // don't see any point in throwing an error here
       // if they want to leave + aren't a member may as well return
-      await firestore
+      await firestore()
         .collection("users")
         .doc(currentUserId)
         .update({
-          missions: admin.firestore.FieldValue.arrayRemove(missionId)
+          missions: firestore.FieldValue.arrayRemove(missionId)
         });
 
       return;
     }
 
     await Promise.all([
-      firestore
+      firestore()
         .collection("missions")
         .doc(missionId)
         .update({
-          [`totalUserPieces.${currentUserId}`]: admin.firestore.FieldValue.delete()
+          [`totalUserPieces.${currentUserId}`]: firestore.FieldValue.delete()
         }),
-      firestore
+      firestore()
         .collection("users")
         .doc(currentUserId)
         .update({
-          missions: admin.firestore.FieldValue.arrayRemove(missionId)
+          missions: firestore.FieldValue.arrayRemove(missionId)
         })
     ]);
 

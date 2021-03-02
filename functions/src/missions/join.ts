@@ -1,8 +1,6 @@
 import * as functions from "firebase-functions";
 
-import admin from "firebase-admin";
-
-import { firestore } from "../firestore";
+import { auth, firestore } from "firebase-admin";
 
 import { getDisplayName } from "../stats";
 
@@ -39,13 +37,13 @@ export default functions.https.onCall(
     }
 
     const { isPrivate } = mission;
-    const user = await admin.auth().getUser(currentUserId);
+    const user = await auth().getUser(currentUserId);
     const displayName = getDisplayName(user);
 
-    const missionRef = firestore.collection("missions").doc(missionId);
+    const missionRef = firestore().collection("missions").doc(missionId);
     if (isPrivate) {
       await missionRef.update({
-        pendingUsers: admin.firestore.FieldValue.arrayUnion({
+        pendingUsers: firestore.FieldValue.arrayUnion({
           uid: currentUserId,
           displayName
         })

@@ -2,7 +2,7 @@
 "use strict";
 
 import _ from "lodash";
-import json2csv from "json2csv";
+import { Parser as Json2CsvParser } from "json2csv";
 import * as functions from "firebase-functions";
 import mkdirp from "mkdirp-promise";
 import corsModule from "cors";
@@ -274,7 +274,7 @@ app.get("/photos.csv", async (req, res) => {
     photos.push(newPhoto);
   });
 
-  const parser = new json2csv.Parser();
+  const parser = new Json2CsvParser();
 
   let csv = "?";
   try {
