@@ -57,7 +57,7 @@ export default functions.https.onCall(
         .collection("users")
         .doc(currentUserId)
         .update({
-          missions: firestore.FieldValue.arrayRemove(missionId)
+          missionIds: firestore.FieldValue.arrayRemove(missionId)
         })
     ]);
 

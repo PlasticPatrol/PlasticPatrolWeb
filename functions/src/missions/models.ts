@@ -1,4 +1,8 @@
-export type User = { uid: string; pieces: number; displayName: string };
+export type User = {
+  uid: string;
+  pieces: number;
+  displayName: string;
+};
 
 export type PendingUser = { uid: string; displayName: string };
 

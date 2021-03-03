@@ -27,6 +27,7 @@ export default functions.https.onCall(
     const isInMission = !!Boolean(totalUserPieces[currentUserId]);
 
     if (isPrivate && !isInMission) {
+      console.log("weird");
       const { totalUserPieces, ...safeMission } = mission;
       return safeMission;
     }

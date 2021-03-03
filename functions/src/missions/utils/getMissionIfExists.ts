@@ -11,13 +11,12 @@ export default async function getMissionIfExists(
     .doc(missionId)
     .get();
 
-  const { exists, data } = snapshot;
-  if (!exists) {
+  if (!snapshot.exists) {
     throw new functions.https.HttpsError(
       "not-found",
       "No mission exists for id"
     );
   }
 
-  return data() as Mission;
+  return snapshot.data() as Mission;
 }
