@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
 
@@ -8,18 +8,15 @@ import "react-circular-progressbar/dist/styles.css";
 
 import styles from "standard.scss";
 import Search from "@material-ui/icons/Search";
+import Clear from "@material-ui/icons/Clear";
 import MissionThumbnail from "./MissionThumbnail";
 import { linkToCreateMission } from "../../routes/missions/links";
-import {
-  MissionsProviderData,
-  useMissions
-} from "../../providers/MissionsProvider";
+import { useMissions } from "../../providers/MissionsProvider";
 import {
   Mission,
   MissionFirestoreData,
-  userOnMissionLeaderboard,
-  userIsInMission,
-  PRIVATE_MISSION_ID_SEARCH_LENGTH
+  PRIVATE_MISSION_ID_SEARCH_LENGTH,
+  userIsInMission
 } from "../../types/Missions";
 import { useUser } from "../../providers/UserProvider";
 import User from "../../types/User";
@@ -71,9 +68,6 @@ function getFilteredMissions(
   missions: MissionFirestoreData[],
   user?: User
 ): MissionFirestoreData[] {
-  const userLoggedIn = user !== undefined;
-  const userId = user?.id || "invalid_id";
-
   // Put missions that users are in at the top.
   if (user !== undefined) {
     missions.sort((a: MissionFirestoreData, b: MissionFirestoreData) => {
@@ -81,8 +75,10 @@ function getFilteredMissions(
     });
   }
 
-  const missionNameIncludesSubstring = (name: string, substring: string) =>
-    name.toLowerCase().includes(substring.trim().toLowerCase());
+  const missionNameIncludesSubstring = (name: string, substring: string) => {
+    return name.toLowerCase().includes(substring.trim().toLowerCase());
+  };
+
   const searchedPrivateMissionId = (mission: Mission, substring: string) => {
     return (
       mission.isPrivate &&
@@ -91,24 +87,29 @@ function getFilteredMissions(
     );
   };
 
-  // Filter missions to show missions if:
-  //  - the user is in the mission.
-  //  - the user is a moderator.
-  //  - if it's a private mission AND the search string matches a section of the mission ID.
-  //  - if it's a public mission AND the search string matches a section of the challenge name.
+  // Filter missions
   missions = missions.filter((mission) => {
-    if (
-      user !== undefined &&
-      (user.isModerator || userIsInMission(user, mission.id))
-    ) {
-      return true;
-    }
+    // Convert to lower case and check for string includes.
+    const missionNameIncludesSearchString = missionNameIncludesSubstring(
+      mission.name,
+      searchString
+    );
 
+    // Users can see private missions if they:
+    // - explicitly search the private mission ID,
+    // - they can already see the mission (they are in the mission or a moderator) and they the search string matches.
     if (mission.isPrivate) {
-      return userLoggedIn && searchedPrivateMissionId(mission, searchString);
+      const userCanAlreadySeePrivateMission =
+        user !== undefined &&
+        (user.isModerator || userIsInMission(user, mission.id));
+      return (
+        searchedPrivateMissionId(mission, searchString) ||
+        (userCanAlreadySeePrivateMission && missionNameIncludesSearchString)
+      );
     }
 
-    return missionNameIncludesSubstring(mission.name, searchString);
+    // If it's a public mission, just compare string search.
+    return missionNameIncludesSearchString;
   });
 
   return missions;
@@ -143,6 +144,12 @@ export default function MissionsHome({}: Props) {
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
         />
+        {searchString.length > 0 && (
+          <Clear
+            style={{ color: styles.darkgrey }}
+            onClick={() => setSearchString("")}
+          />
+        )}
       </div>
       <div className={classes.missionList}>
         {missionData?.missions === undefined ? (

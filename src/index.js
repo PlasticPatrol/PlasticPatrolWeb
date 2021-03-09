@@ -9,7 +9,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import "./index.scss";
 import App from "./App";
 
-import firebaseApp from "features/firebase/firebaseInit";
+import { firebaseApp } from "features/firebase/firebaseInit";
 
 import LoginFirebase from "./components/LoginFirebase";
 import * as serviceWorker from "./serviceWorker";

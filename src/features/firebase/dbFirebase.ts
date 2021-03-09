@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import * as localforage from "localforage";
 
-import firebaseApp from "./firebaseInit.js";
+import { firebaseApp } from "./firebaseInit.js";
 import firebaseConfig from "./config";
 import Stats from "types/Stats";
 import Feature from "types/Feature";

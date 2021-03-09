@@ -28,17 +28,23 @@
         <splash density="land-hdpi" src="res/screen/android/Android-HDPI-landscape.png"/>
         <splash density="land-ldpi" src="res/screen/android/Android-LDPI-landscape.png"/>
         <splash density="land-mdpi" src="res/screen/android/Android-MDPI-landscape.png"/>
-        <splash density="land-xhdpi" src="res/screen/android/Android-XHDPi-landscape.png"/>
-        <splash density="land-xxhdpi" src="res/screen/android/Android-XXHDPi-landscape.png"/>
-        <splash density="land-xxxhdpi" src="res/screen/android/Android-XXXHDPi-landscape.png"/>
-        <splash density="port-hdpi" src="res/screen/android/Android-HDPI-landscape.png"/>
-        <splash density="port-ldpi" src="res/screen/android/Android-LDPI-landscape.png"/>
-        <splash density="port-mdpi" src="res/screen/android/Android-MDPI-landscape.png"/>
-        <splash density="port-xhdpi" src="res/screen/android/Android-XHDPi-landscape.png"/>
-        <splash density="port-xxhdpi" src="res/screen/android/Android-XXHDPi-landscape.png"/>
-        <splash density="port-xxxhdpi" src="res/screen/android/Android-XXXHDPi-landscape.png"/>
+        <splash density="land-xhdpi" src="res/screen/android/Android-XHDPI-landscape.png"/>
+        <splash density="land-xxhdpi" src="res/screen/android/Android-XXHDPI-landscape.png"/>
+        <splash density="land-xxxhdpi" src="res/screen/android/Android-XXXHDPI-landscape.png"/>
+        <splash density="port-hdpi" src="res/screen/android/Android-HDPI-portrait.png"/>
+        <splash density="port-ldpi" src="res/screen/android/Android-LDPI-portrait.png"/>
+        <splash density="port-mdpi" src="res/screen/android/Android-MDPI-portrait.png"/>
+        <splash density="port-xhdpi" src="res/screen/android/Android-XHDPI-portrait.png"/>
+        <splash density="port-xxhdpi" src="res/screen/android/Android-XXHDPI-portrait.png"/>
+        <splash density="port-xxxhdpi" src="res/screen/android/Android-XXXHDPI-portrait.png"/>
+        <splash density="hdpi" src="res/screen/android/Android-HDPI-portrait.png"/>
+        <splash density="ldpi" src="res/screen/android/Android-LDPI-portrait.png"/>
+        <splash density="mdpi" src="res/screen/android/Android-MDPI-portrait.png"/>
+        <splash density="xhdpi" src="res/screen/android/Android-XHDPI-portrait.png"/>
+        <splash density="xxhdpi" src="res/screen/android/Android-XXHDPI-portrait.png"/>
+        <splash density="xxxhdpi" src="res/screen/android/Android-XXXHDPI-portrait.png"/>
         <resource-file src="google-services.json" target="app/google-services.json"/>
-        <preference name="android-minSdkVersion" value="19"/>
+        <preference name="android-minSdkVersion" value="22"/>
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*"/>
@@ -95,5 +101,6 @@
         </edit-config>
     </platform>
     <hook src="scripts/changeVersion.js" type="before_prepare"/>
+    <hook src="scripts/sentryFrameworkPatch.js" type="after_prepare"/>
 
 </widget>

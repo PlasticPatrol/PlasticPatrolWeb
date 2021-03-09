@@ -21,7 +21,7 @@ platform :ios do
     upload_to_testflight(
         ipa: "platforms/ios/build/device/Planet Patrol.ipa",
         distribute_external: false,
-        changelog: ENV["TRAVIS_COMMIT_MESSAGE"]
+        skip_waiting_for_build_processing: true
     )
     end
 end
@@ -30,7 +30,7 @@ platform :android do
   desc "deploy android to beta"
   lane :beta do
     upload_to_play_store(
-      apk: "./platforms/android/app/release/app-release.apk",
+      apk: "platforms/android/app/build/outputs/apk/release/app-release.apk",
       track: "beta",
       skip_upload_metadata: true,
       skip_upload_aab: true,

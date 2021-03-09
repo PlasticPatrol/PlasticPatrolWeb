@@ -74,13 +74,16 @@ scripts/config.json
 **/serviceAccountKey*
 
 **/build.json
+**/*.jks
 **/*.keystore
 **/secrets.tar
 **/*.cer
 **/*.p12
 **/*.mobileprovision
 **/report.xml
-/cordova-app/GooglePlayAndroidDeveloper.json
+cordova-app/google-services.json
+cordova-app/GoogleService-Info.plist
+cordova-app/GooglePlayAndroidDeveloper.json
 
 functions/config.json
 public/first-input-delay.min.js

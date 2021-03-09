@@ -8,6 +8,7 @@ import "firebase/performance";
 import "firebase/functions";
 import "firebase/storage";
 import "firebase/analytics";
+import "firebase/remote-config";
 
 import config from "./config";
 
@@ -17,6 +18,23 @@ const firebaseApp = !firebase.apps.length
   : firebase.app();
 
 const firestore = firebase.firestore();
+
+// remote config: https://firebase.google.com/docs/remote-config/get-started?platform=web
+const remoteConfig = firebase.remoteConfig();
+// remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
+remoteConfig.defaultConfig = {
+  enable_missions: false
+};
+
+// need to refetch for next time.
+remoteConfig
+  .fetchAndActivate()
+  .then(() => {
+    console.log("CAPTURED");
+  })
+  .catch((err) => {
+    console.log("ERROR");
+  });
 
 // measuring web performance. See https://firebase.google.com/docs/perf-mon/get-started-web
 firebase.performance();
@@ -51,4 +69,4 @@ if (!isInIframe()) {
   console.log("Cannot enable persistence inside an iframe");
 }
 
-export default firebaseApp;
+export { firebaseApp, remoteConfig };

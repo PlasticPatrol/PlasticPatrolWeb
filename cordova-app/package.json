@@ -5,65 +5,77 @@
   "homepage": "./",
   "cordova": {
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ],
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-geolocation": {
-        "GPS_REQUIRED": "true"
-      },
       "cordova-plugin-camera-with-exif": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       },
-      "cordova-support-android-plugin": {},
       "cordova-plugin-statusbar": {},
-      "cordova-plugin-firebase-analytics": {},
-      "cordova-plugin-androidx": {},
-      "cordova-plugin-androidx-adapter": {},
-      "cordova-support-google-services": {},
       "cordova-universal-links-plugin": {},
       "cordova-plugin-buildinfo": {},
-      "cordova-plugin-browsertab": {},
-      "cordova-plugin-inappbrowser": {},
       "cordova-plugin-customurlscheme": {
         "URL_SCHEME": "com.lewismakesapps.Plastic-Patrol",
         "ANDROID_SCHEME": " ",
         "ANDROID_HOST": " ",
         "ANDROID_PATHPREFIX": "/"
       },
-      "phonegap-plugin-barcodescanner": {},
+      "phonegap-plugin-barcodescanner": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      },
       "sentry-cordova": {
         "SENTRY_ANDROID_SDK_VERSION": "1+"
       },
-      "cordova-plugin-device": {}
+      "cordova-plugin-device": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-androidx": {},
+      "cordova-plugin-androidx-adapter": {},
+      "cordova-plugin-geolocation": {
+        "GPS_REQUIRED": "true"
+      },
+      "cordova-support-google-services": {},
+      "cordova-plugin-firebase-analytics": {
+        "ANALYTICS_COLLECTION_ENABLED": "true",
+        "AUTOMATIC_SCREEN_REPORTING_ENABLED": "true",
+        "ANDROID_FIREBASE_ANALYTICS_VERSION": "18.0.+",
+        "IOS_FIREBASE_ANALYTICS_VERSION": "~> 7.0.0"
+      },
+      "cordova-support-android-plugin": {},
+      "cordova-plugin-firebase-crash": {
+        "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
+        "ANDROID_FIREBASE_CRASHLYTICS_VERSION": "17.3.+"
+      }
     }
   },
   "dependencies": {
-    "cordova-android": "^8.1.0",
-    "cordova-ios": "^5.1.1",
     "cordova-ios-plugin-no-export-compliance": "0.0.6",
-    "cordova-plugin-androidx": "^1.0.2",
-    "cordova-plugin-androidx-adapter": "^1.1.0",
-    "cordova-plugin-browsertab": "^0.2.0",
     "cordova-plugin-buildinfo": "^4.0.0",
-    "cordova-plugin-camera": "^5.0.1",
-    "cordova-plugin-compat": "^1.2.0",
-    "cordova-plugin-customurlscheme": "^5.0.1",
+    "cordova-plugin-camera-with-exif": "^1.3.1",
+    "cordova-plugin-customurlscheme": "^5.0.2",
     "cordova-plugin-device": "^2.0.3",
-    "cordova-plugin-firebase-analytics": "^3.0.0",
-    "cordova-plugin-geolocation": "^4.1.0",
-    "cordova-plugin-inappbrowser": "^3.2.0",
     "cordova-plugin-statusbar": "2.4.3",
     "cordova-plugin-whitelist": "^1.3.4",
-    "cordova-support-android-plugin": "1.0.1",
-    "cordova-support-google-services": "^1.3.2",
     "cordova-universal-links-plugin": "^1.2.1",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "sentry-cordova": "^0.17.0"
   },
   "devDependencies": {
+    "cordova-android": "^9.0.0",
+    "cordova-ios": "^6.2.0",
+    "cordova-plugin-androidx": "^3.0.0",
+    "cordova-plugin-androidx-adapter": "^1.1.3",
+    "cordova-plugin-firebase-analytics": "^5.0.0",
+    "cordova-plugin-firebase-crash": "^3.0.0",
+    "cordova-plugin-geolocation": "^4.1.0",
+    "cordova-plugin-inappbrowser": "^5.0.0",
+    "cordova-plugin-splashscreen": "^6.0.0",
+    "cordova-support-android-plugin": "^1.0.2",
+    "cordova-support-google-services": "^1.4.1",
     "http-server": "^0.11.1",
+    "xcode": "^3.0.1",
     "xmldom": "^0.1.27"
   }
 }

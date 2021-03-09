@@ -104,7 +104,7 @@ jobs:
     # build the iOS app in debug mode
   - name: ios:dev
     os: osx
-    if: type == pull_request AND tag IS blank
+    if: false # type == pull_request AND tag IS blank
     language: objective-c
     osx_image: xcode12.2
     node_js: 14
