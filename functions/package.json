@@ -16,17 +16,17 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase-admin": "^8.12.1",
-    "firebase-functions": "^3.3.0",
+    "firebase-functions": "^3.13.2",
     "gm": "^1.23.1",
     "json2csv": "^4.5.4",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "mkdirp": "^0.5.1",
     "mkdirp-promise": "^5.0.1"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.6",
-    "@types/express": "^4.17.6",
-    "@types/faker": "^5.1.4",
+    "@types/cors": "^2.8.10",
+    "@types/express": "^4.17.11",
+    "@types/faker": "^5.1.7",
     "@types/gm": "^1.18.7",
     "@types/json2csv": "^5.0.0",
     "@types/mkdirp-promise": "^5.0.0",
@@ -34,15 +34,15 @@
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
     "eslint": "^6.6.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "faker": "^5.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "faker": "^5.4.0",
     "firebase-functions-test": "^0.1.6",
     "mocha": "^7.1.2",
     "ts-mocha": "^7.0.0",
     "ts-node": "^8.10.1",
     "ts-sinon": "^1.2.0",
     "tslint": "^6.1.2",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.9"
   },
   "engines": {
     "node": "10"

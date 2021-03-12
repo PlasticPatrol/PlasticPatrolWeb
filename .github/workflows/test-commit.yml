@@ -3,7 +3,7 @@ name: Run tests against commit
 on: [pull_request]
 
 jobs:
-  test:
+  unit-test-web:
     runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v2
@@ -16,4 +16,22 @@ jobs:
           start: yarn start
           wait-on: "http://localhost:3000"
           wait-on-timeout: 180
-      - run: yarn test
+      - run: yarn app:test
+  
+  unit-test-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node_modules
+        id: cache-modules
+        uses: actions/cache@v2
+        with:
+          path: functions/node_modules
+          key: ${{ runner.OS }}-node_modules_functions-${{ hashFiles('functions/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node_modules_functions-
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10'
+      - run: cd functions && npm install -ci 
+      - run: cd functions && npm run test
