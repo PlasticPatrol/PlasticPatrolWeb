@@ -22,14 +22,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Cache node_modules
-        id: cache-modules
-        uses: actions/cache@v2
-        with:
-          path: functions/node_modules
-          key: ${{ runner.OS }}-node_modules_functions-${{ hashFiles('functions/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-node_modules_functions-
+      # commenting it out as https://github.com/actions/cache/blob/main/examples.md#node---npm says to do not cache node_modules
+      # - name: Cache node_modules
+      #   id: cache-modules
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: functions/node_modules
+      #     key: ${{ runner.OS }}-node_modules_functions-${{ hashFiles('functions/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.OS }}-node_modules_functions-
       - uses: actions/setup-node@v2
         with:
           node-version: '10'
